@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+   <meta charset="utf-8">
+   <title>Activity Log</title>
+   <link rel="stylesheet" type="text/css" href="css/style.css">
+   <script src="JavaScript/Stay.js"></script>
+   <script type="text/javascript" src="JavaScript/siteLogic.js"></script>
+
+</head>
+
+<body>
+   <div id="page-wrap">
+      <form name='mainForm' id='mainForm' method="get" action="#">
+         <fieldset>
+            <legend>Input Information</legend>
+               <table id="calcTable">
+                  <tr><td><label><b>Original travelers:</b></label><br/></td></tr>
+                  <!-- Elements wil be dynamically added here -->
+                  </table>
+                  <table id="calcResultTable">
+                  <!-- Elements wil be dynamically added here -->
+                  </table>
+                  <br/>
+                  <table id="recalTable">
+                  <!-- Elements wil be dynamically added here -->
+                  </table>
+                  <br/>
+                  <table id="redisTable">
+                  <!-- Elements wil be dynamically added here -->
+               </table>
+         </fieldset>
+      </form>
+      <button class="button-42" id="add_activity">Add Person</button>
+      <button class="button-42" id="calculate">Calculate</button>
+      <button class="button-42" id="recalculate" disabled>Make Changes</button>
+      <button class="button-42" id="redistribute" disabled>Redistribute</button>
+      <label>Total Cost: </label>
+      <input type="number" name="totalCost" id="totalCost" class="required">
+      <label>Total Number of Nights: </label>
+      <input type="number" name="totalNights" id="totalNights"class="required">
+      <br/><br/><br/><br/>
+      <button class="button-42" onClick="window.location.reload();">Start Over</button>
+   </div>
+</body>
+</html>
+
