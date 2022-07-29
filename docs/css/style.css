@@ -84,6 +84,12 @@ input[type=number] {
 	width: 100px;
 }
 
+.object-1 {
+  width: 800px;
+  height: 500px;
+  align-items: center;
+}
+
 /*label {
 	background-color: white;
 }*/
