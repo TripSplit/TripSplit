@@ -1,0 +1,16 @@
+Instructions:
+
+-Enter the total cost of the trip in the "Total Cost" box
+-Enter The number of nights you will be staying in the "Total Number of Nights" box
+-Click "Add Person" button until you have the amount of people that are attending the trip
+-Add the names of the travelers to the "Name" boxes
+-Enter each individual night the person is staying in the "Nights" boxes, starting from night 0. For example
+	The trip is 5 nights long and Peter is staying for the first 3 nights: His nights will be 012
+	Joe is staying all 5 nights. His nights are 01234
+	Cleveland is staying the last 3 nights. His nights are 234
+-Click Calculate
+
+-If your friends changed their plans after everything was paid for, you may now follow the same steps above to make changes. This includes adding more people and changing nights
+
+-Click start over button if you need to begin a new calculation.
+	
