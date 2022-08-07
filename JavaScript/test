@@ -1,0 +1,25 @@
+1. Write a program to find the minimum node element in a Linked List.
+2. You were given a list of meeting and their timings, Write a program to find out the minimum number of conference rooms required without overlapping the meetings. // I think that's the zeist of the questions, it was litter longer though
+3. The following program increases/decreases the value of A and B until A is equal to X and B is equal to Y. Find the bug:
+public static void MakeTheNumbersMatch(int a, int b, int x, int y)
+{
+    while(a!=x && b!=y)
+    {
+        if(a> x)
+        {
+            a--;
+        }
+        else
+        {
+            a++;
+        }
+        if(b>y)
+        {
+            b--;
+        }
+        else
+        {
+            b++;
+        }
+    }
+}
