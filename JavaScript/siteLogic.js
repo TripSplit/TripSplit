@@ -71,7 +71,6 @@ window.onload = function() {
 
             per = personsArr[index].value;
             orgPersons.push(per);
-            //index++;
             night = nightsArr[index].value;
             orgNights.push(night);
 
@@ -167,24 +166,16 @@ window.onload = function() {
 
         redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>Money Redistribution:</b></label><br/></td></tr>');
 
-        //print(" - Guest {} is staying {} nights and owes ${:.2f}.".format(self.name_list[j],len(self.nights_staying_list[j]),self.person_shareprice_list_new[j]))
-
         redisTableJS.innerHTML = '';
         for (index = 0; index < stay.num_guests; index++) {
             redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>' + stay.name_list[index] + '</b> is staying ' + stay.nights_staying_list[index].length + ' nights and <b>owes</b>: $</label><label><b>' + stay.person_shareprice_list_new[index].toFixed(2) + '</b></label><br/></td></tr>');
         }
 
         redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><br/></td></tr>');
-
-        //print(" - Guest {} should {} ${:.2f}.".format(self.name_list[j], "send" if self.amount_to_send[j]>0 else "receive", self.amount_to_send[j]))
         
         for (index = 0; index < stay.num_guests; index++) {
             redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>' + stay.name_list[index] + '</b> should ' + ((stay.amount_to_send[index] > 0) ? '<b>send</b>' : '<b>receive</b>') + ': $</label><label><b>' + Math.abs(stay.amount_to_send[index]).toFixed(2) + '</b></label><br/></td></tr>');
         }
-
-        //document.getElementById("add_activity").disabled = true;
-        //document.getElementById("redistribute").disabled = true;
-
 
     }, false);
 
