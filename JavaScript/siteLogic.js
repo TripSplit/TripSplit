@@ -10,7 +10,7 @@ window.onload = function() {
     var recalculating = false;
     
     // Initialize the activityNumber
-    var activityNumber = 1;
+    var activityNumber = 0;
 
     // Select the add_activity button
     var addButton = document.getElementById("add_activity");
@@ -29,6 +29,9 @@ window.onload = function() {
 
     const stay = new Stay(document.getElementById("totalCost").value, document.getElementById("totalNights").value);
 
+    // list of remove buttons
+    var removeButtonList = [];
+
     // Attach handler to the button click event
     addButton.onclick = function() {
 
@@ -41,11 +44,38 @@ window.onload = function() {
             recal++;
         }
         else{
-        calcTableJS.insertAdjacentHTML("beforeend", '<tr><td><label>Person ' + activityNumber + ': </label><br/> \
+        calcTableJS.insertAdjacentHTML("beforeend", '<tr><td><label id="personlabel-'+(activityNumber+1).toString()+'">Person ' + (activityNumber+1).toString() + ': </label><br/> \
+            <button class="button-rm" id="rm-button-' + activityNumber + '" type="button"> <i class="fa fa-trash"></i></button> \
             <input type="text" name="person' + activityNumber + '" id="person' + activityNumber + '" class="required" placeholder="Name"> \
             <input type="text" id="nights' + activityNumber + '" name="nights' + activityNumber + '" value="" placeholder="Nights"></td></tr>');
+            
+            
+            // add remove button to list of remove buttons
+            removeButtonList.push(document.getElementById("rm-button-" + activityNumber));
+            removeButtonList[activityNumber].idx = activityNumber;
+
+            // Remove entry when remove button clicked
+            removeButtonList[activityNumber].onclick = function() {
+                
+                // Update labels for entries following the removed one
+                for (ii = this.idx+1; ii < removeButtonList.length; ii++) {
+                    removeButtonList[ii].idx -= 1;
+                    removeButtonList[ii].id = "rm-button-" + (ii-1).toString();
+                    document.getElementById("personlabel-"+(ii+1).toString()).innerHTML = "Person " + (ii).toString() + ":";
+                    document.getElementById("personlabel-"+(ii+1).toString()).id = "personlabel-"+(ii).toString();
+                }
+
+
+                document.getElementById("calcTable").deleteRow(this.idx+1);
+                removeButtonList.splice(this.idx,1);
+                activityNumber -= 1;
+
+            }
             activityNumber += 1;
-        }        
+
+        }
+    
+
     }
 
     document.getElementById("calculate").addEventListener("click", function() {
