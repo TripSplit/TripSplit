@@ -20,7 +20,30 @@ form {
 }
 
 .button-rm {
-
+  background-color: initial;
+  background-image: linear-gradient(-180deg, #ff002234, #ff002234);
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-weight: bold;    height: 20px;
+  line-height: 20px;
+  outline: 0;
+  overflow: hidden;
+  padding: 0 5px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: top;
+  white-space: nowrap;
+  z-index: 1;
+  border: 0;
+  transition: box-shadow .2s;
 }
 
 .button-rm:hover {

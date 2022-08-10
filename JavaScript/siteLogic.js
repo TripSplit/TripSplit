@@ -101,6 +101,7 @@ window.onload = function() {
 
             per = personsArr[index].value;
             orgPersons.push(per);
+            //index++;
             night = nightsArr[index].value;
             orgNights.push(night);
 
