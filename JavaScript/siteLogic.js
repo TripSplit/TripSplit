@@ -101,7 +101,6 @@ window.onload = function() {
 
             per = personsArr[index].value;
             orgPersons.push(per);
-            //index++;
             night = nightsArr[index].value;
             orgNights.push(night);
 
@@ -119,7 +118,6 @@ window.onload = function() {
         document.getElementById("recalculate").disabled = false;
 
     }, false);
-
 
     document.getElementById("recalculate").addEventListener("click", function() {
 

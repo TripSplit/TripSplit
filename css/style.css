@@ -39,7 +39,7 @@ form {
   touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
-  vertical-align: top;
+  vertical-align: center;
   white-space: nowrap;
   z-index: 1;
   border: 0;
