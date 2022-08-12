@@ -20,9 +20,13 @@ window.onload = function() {
 
     // Select the table element
     var calcTableJS = document.getElementById("calcTable");
+    var calcTableBodyJS = calcTableJS.getElementsByTagName('tbody')[0];
     var recalTableJS = document.getElementById("recalTable");
+    var recalTableBodyJS = recalTableJS.getElementsByTagName('tbody')[0];
     var redisTableJS = document.getElementById("redisTable");
+    var redisTableBodyJS = redisTableJS.getElementsByTagName('tbody')[0];
     var calcResultTableJS = document.getElementById("calcResultTable");
+    var calcResultTableJS = calcResultTableJS.getElementsByTagName('tbody')[0];
 
     // Select the table element
     var resultTable = document.getElementById("resultlist");
@@ -38,16 +42,16 @@ window.onload = function() {
     // Add a new row to the table using the correct activityNumber
 
         if (recalculating){
-        recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label>Person</label><br/> \
+        recalTableBodyJS.insertRow().innerHTML = '<td><label>Person</label><br/> \
             <input type="text" name="reperson' + recal + '" id="AddReperson' + recal + '"  value="" placeholder="Name"> \
-            <input type="text" name="renights' + recal + '" id="AddRenights' + recal + '" value="" placeholder="Nights"></td></tr>');
+            <input type="text" name="renights' + recal + '" id="AddRenights' + recal + '" value="" placeholder="Nights"></td>';
             recal++;
         }
         else{
-        calcTableJS.insertAdjacentHTML("beforeend", '<tr><td><label id="personlabel-'+(activityNumber+1).toString()+'">Person ' + (activityNumber+1).toString() + ': </label><br/> \
+        calcTableBodyJS.insertRow().innerHTML = '<td><label id="personlabel-'+(activityNumber+1).toString()+'">Person ' + (activityNumber+1).toString() + ': </label><br/> \
             <button class="button-rm" id="rm-button-' + activityNumber + '" type="button"> <i class="fa fa-trash"></i></button> \
             <input type="text" name="person' + activityNumber + '" id="person' + activityNumber + '" class="required" placeholder="Name"> \
-            <input type="text" id="nights' + activityNumber + '" name="nights' + activityNumber + '" value="" placeholder="Nights"></td></tr>');
+            <input type="text" id="nights' + activityNumber + '" name="nights' + activityNumber + '" value="" placeholder="Nights"></td>';
             
             
             // add remove button to list of remove buttons
