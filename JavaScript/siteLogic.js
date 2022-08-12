@@ -141,7 +141,7 @@ window.onload = function() {
         for (index = 0; index < orgPersons.length; index++) {
 
             recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label>' + orgPersons[index] + ' </label> \
-            <input type="text" name="reperson' + recal + '" id="reperson' + recal + '"  value="' + orgPersons[index] + '">');
+            ');
             
             for(var i=0; i < totalNights; i++){
                 if(orgNights[index].includes(i)){
