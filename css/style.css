@@ -106,3 +106,19 @@ input[type='checkbox']:checked {
   width: 300px;
   height: 150px;
 }
+
+.footerbackground{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(58, 95, 150, 0.756);
+  color: white;
+  text-align: left;
+}
+
+.footer{
+  /* margin-left: 100px */
+  font-size: 12pt;
+  padding: 1px 900px 1px 100px;
+}
