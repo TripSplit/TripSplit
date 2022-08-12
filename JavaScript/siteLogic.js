@@ -37,7 +37,7 @@ window.onload = function() {
         // Add a new row to the table using the correct activityNumber
 
         if (recalculating){
-        recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label>Person</label> \
+        recalTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
             <input type="text" name="reperson' + recal + '" id="AddReperson' + recal + '"  value="" placeholder="Name">');
             recal++;
             
@@ -51,7 +51,7 @@ window.onload = function() {
             }
         }
         else{
-        calcTableJS.insertAdjacentHTML("beforeend", '<tr><td><label>Person ' + activityNumber + ': </label> \
+        calcTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
             <input type="text" name="person' + activityNumber + '" id="person' + activityNumber + '" class="required" placeholder="Name">');
             activityNumber += 1;
 
