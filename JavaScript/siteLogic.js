@@ -250,12 +250,12 @@ window.onload = function() {
             checkBoxes[index].remove();
         }
 
-        var table = document.getElementById("calcTable"), iter = 0;
+        //var table = document.getElementById("calcTable"), iter = 0;
         totalNights = document.getElementById("totalNights").value;
 
-        for (iter=1; iter < table.rows.length; iter++){
+        for (var iter=1; iter < calcTableJS.rows.length; iter++){
             for(var i=0; i < totalNights; i++){
-                table.rows[iter].insertAdjacentHTML("beforeend", '<input type="checkbox" name="cbRow'+iter+'Day'+i+'" id="cb'+iter+'Day'+i+'"/>'); 
+                calcTableJS.rows[iter].insertAdjacentHTML("beforeend", '<input type="checkbox" name="cb'+iter+'" id="cb'+iter+'"/>'); 
             }
         }
     }, false);
