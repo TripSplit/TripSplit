@@ -250,7 +250,6 @@ window.onload = function() {
             checkBoxes[index].remove();
         }
 
-        //var table = document.getElementById("calcTable"), iter = 0;
         totalNights = document.getElementById("totalNights").value;
 
         for (var iter=1; iter < calcTableJS.rows.length; iter++){
