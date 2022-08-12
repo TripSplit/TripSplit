@@ -122,6 +122,11 @@ window.onload = function() {
         for(index = 1; index <= persons.length; index++){
             document.getElementById("person" + index).disabled = true;
         }
+
+        checkboxes = document.querySelectorAll('[id^="cb"]');
+        for(var i = 0; i < checkboxes.length; i++){
+            checkboxes[i].disabled = true;
+        }
         
         document.getElementById("totalCost").disabled = true;
         document.getElementById("totalNights").disabled = true;
