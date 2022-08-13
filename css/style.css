@@ -108,7 +108,7 @@ input[type='checkbox']:checked {
 }
 
 .footerbackground{
-  position: fixed;
+  position: bottom;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -118,9 +118,8 @@ input[type='checkbox']:checked {
 }
 
 .footer{
-  /* margin-left: 100px */
   font-size: 12pt;
-  padding: 1px 900px 1px 100px;
+  padding: 1% 10% 1% 10%;
 }
 
 
