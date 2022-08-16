@@ -140,7 +140,7 @@ window.onload = function() {
 
         for (index = 0; index < orgPersons.length; index++) {
 
-            recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label>' + orgPersons[index] + ' </label> \
+            recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label name="reperson' + recal + '" id="reperson' + recal + '">' + orgPersons[index] + ' </label> \
             ');
             
             for(var i=0; i < totalNights; i++){
@@ -190,10 +190,8 @@ window.onload = function() {
                 
                 if(ReCheckBoxes[j].checked){
                     night.push(j);
-                    
                 }
             }
-            
             renightsArr.push(night);
         }
         ////
@@ -220,13 +218,24 @@ window.onload = function() {
         
         for (index=0; index < repersonsArr.length; index++){
 
-            if (renightsArr[index] != orgNights[index]){
-                stay.ChangePersonNights(repersonsArr[index].value, renightsArr[index])
+            var isDiff = false;
+
+            for(var i = 0; i < renightsArr[index].length; i++){
+                if (renightsArr[index][i] != orgNights[index][i]){
+                    isDiff = true;
+                }
+            }
+            
+            if (isDiff){
+                stay.ChangePersonNights(repersonsArr[index].innerText, renightsArr[index])
+                console.log(repersonsArr[index].innerText);
+                console.log(renightsArr[index]);
+                console.log(orgNights[index]);
             }
         }
 
         for (index = 0; index < AddRepersons.length; index++) {
-            stay.AddPerson(AddRepersonsArr[index].value, AddRenightsArr[index])
+            stay.AddPerson(AddRepersonsArr[index].innerText, AddRenightsArr[index])
         }
 
         stay.CalculateRedistribution();
@@ -236,7 +245,7 @@ window.onload = function() {
 
         redisTableJS.innerHTML = '';
         for (index = 0; index < stay.num_guests; index++) {
-            redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>' + stay.name_list[index] + '</b> is staying ' + stay.nights_staying_list[index].length + ' nights and <b>owes</b>: $</label><label><b>' + stay.person_shareprice_list_new[index].toFixed(2) + '</b></label><br/></td></tr>');
+            redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>' + stay.name_list[index] + '</b> is staying ' + stay.nights_staying_list[index].length + ' nights. <b>Total Cost</b>: $</label><label><b>' + stay.person_shareprice_list_new[index].toFixed(2) + '</b></label><br/></td></tr>');
         }
 
         redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><br/></td></tr>');
