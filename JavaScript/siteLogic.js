@@ -228,15 +228,11 @@ window.onload = function() {
             
             if (isDiff){
                 stay.ChangePersonNights(repersonsArr[index].innerText, renightsArr[index])
-                console.log(repersonsArr[index].innerText);
-                console.log(renightsArr[index]);
-                console.log(orgNights[index]);
             }
         }
 
         for (index = 0; index < AddRepersons.length; index++) {
             stay.AddPerson(AddRepersonsArr[index].value, AddRenightsArr[index])
-            console.log(AddRepersonsArr[index].value);
         }
 
         stay.CalculateRedistribution();
