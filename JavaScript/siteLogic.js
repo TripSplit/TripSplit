@@ -56,6 +56,7 @@ window.onload = function() {
         totalCost = document.getElementById("totalCost").value;
         totalNights = document.getElementById("totalNights").value;
 
+    
         const stay = new Stay(totalCost, totalNights);
 
         var persons, nights, index;
@@ -65,6 +66,7 @@ window.onload = function() {
 
         nights = document.querySelectorAll('[id^="nights"]');
         var nightsArr = Array.from(nights);
+        console.log({orgNights,nights,nightsArr});
 
         for (index = 0; index < personsArr.length; index++) {
             var per, night;
@@ -79,12 +81,21 @@ window.onload = function() {
         }
 
         orgCosts = stay.CalculateOriginalCosts();
-
-        calcResultTableJS.innerHTML = '';
-        for (index = 0; index < orgCosts.length; index++) {
-            calcResultTableJS.insertAdjacentHTML("beforeend", '<tr><td><label>' + orgPersons[index] + ': $</label><label>' + orgCosts[index].toFixed(2) + '</label><br/></td></tr>');
+        console.log(orgCosts.reduce((partialSum,a) => partialSum+a, 0));
+        console.log(Math.abs(orgCosts.reduce((partialSum,a) => partialSum+a, 0) - totalCost));
+        console.log(Math.abs(orgCosts.reduce((partialSum,a) => partialSum+a, 0) - totalCost) > 1e-3);
+        if(Math.abs(orgCosts.reduce((partialSum,a) => partialSum+a, 0) - totalCost) > 1e-3 )
+        {
+            console.log('Should be error');
+            calcResultTableJS.insertAdjacentHTML("beforeend", '<tr><td><label>Error:</label><label></label><br/></td></tr>');
+        }  
+        else
+        {
+            calcResultTableJS.innerHTML = '';
+            for (index = 0; index < orgCosts.length; index++) {
+                calcResultTableJS.insertAdjacentHTML("beforeend", '<tr><td><label>' + orgPersons[index] + ': $</label><label>' + orgCosts[index].toFixed(2) + '</label><br/></td></tr>');
+            }
         }
-
         document.getElementById("recalculate").disabled = false;
 
     }, false);
