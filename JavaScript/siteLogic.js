@@ -38,7 +38,7 @@ window.onload = function() {
 
         if (recalculating){
         recalTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
-            <input type="text" name="reperson' + recal + '" id="AddReperson' + recal + '"  value="" placeholder="Name">');
+            <input type="text" name="AddReperson' + recal + '" id="AddReperson' + recal + '"  value="" placeholder="Name">');
             recal++;
             
             totalNights = document.getElementById("totalNights").value;
@@ -235,7 +235,8 @@ window.onload = function() {
         }
 
         for (index = 0; index < AddRepersons.length; index++) {
-            stay.AddPerson(AddRepersonsArr[index].innerText, AddRenightsArr[index])
+            stay.AddPerson(AddRepersonsArr[index].value, AddRenightsArr[index])
+            console.log(AddRepersonsArr[index].value);
         }
 
         stay.CalculateRedistribution();
