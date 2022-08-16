@@ -76,18 +76,25 @@ window.onload = function() {
             night = nightsArr[index].value;
             orgNights.push(night);
 
-            stay.AddPerson(per,  Array.from(String(night), Number));
+            if(stay.AddPerson(per,  Array.from(String(night), Number)))
+            {
+               // No error, continue 
+            }
+            else
+            {
+                calcResultTableJS.insertAdjacentHTML("beforeend", '<tr><td><label class="error">Error: Check that all names are different.</label><label></label><br/></td></tr>');
+                return 0;
+            }
 
         }
 
         orgCosts = stay.CalculateOriginalCosts();
-        console.log(orgCosts.reduce((partialSum,a) => partialSum+a, 0));
-        console.log(Math.abs(orgCosts.reduce((partialSum,a) => partialSum+a, 0) - totalCost));
-        console.log(Math.abs(orgCosts.reduce((partialSum,a) => partialSum+a, 0) - totalCost) > 1e-3);
-        if(Math.abs(orgCosts.reduce((partialSum,a) => partialSum+a, 0) - totalCost) > 1e-3 )
+
+        let totalCostDifference = Math.abs(orgCosts.reduce((partialSum,a) => partialSum+a, 0) - totalCost);
+
+        if(totalCostDifference > 1e-3 )
         {
-            console.log('Should be error');
-            calcResultTableJS.insertAdjacentHTML("beforeend", '<tr><td><label>Error:</label><label></label><br/></td></tr>');
+            calcResultTableJS.insertAdjacentHTML("beforeend", '<tr><td><label class="error">Error: Attendee costs do not add up to total cost. Check to see if each night has an attendee.</label><label></label><br/></td></tr>');
         }  
         else
         {
@@ -146,6 +153,16 @@ window.onload = function() {
 
         for (index = 0; index < orgPersons.length; index++) {
             stay.AddPerson(orgPersons[index],  Array.from(String(orgNights[index]), Number));
+            // if(stay.AddPerson(orgPersons[index],  Array.from(String(orgNights[index]), Number)))
+            // {
+            //    // No error, continue 
+            // }
+            // else
+            // {
+            //     console.log('Should be error siteLogic')
+            //     redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label class="error">Error: Check that all names are different.</label><label></label><br/></td></tr>');
+            //     return 0;
+            // }
         }
 
         stay.CalculateOriginalCosts();
@@ -169,12 +186,24 @@ window.onload = function() {
         }
 
         for (index = 0; index < AddRepersons.length; index++) {
-            stay.AddPerson(AddRepersonsArr[index].value, Array.from(String(AddRenightsArr[index].value), Number))
+            // stay.AddPerson(AddRepersonsArr[index].value, Array.from(String(AddRenightsArr[index].value), Number))
+            if(stay.AddPerson(AddRepersonsArr[index].value, Array.from(String(AddRenightsArr[index].value), Number)))
+            {
+               // No error, continue 
+            }
+            else
+            {
+                console.log('Should be error siteLogic')
+                redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label class="error">Error: Check that all names are different.</label><label></label><br/></td></tr>');
+                // stay.RemovePerson(AddRepersonsArr[index].value);
+                return 0;
+            }
         }
 
         stay.CalculateRedistribution();
 
 
+        
         redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>Money Redistribution:</b></label><br/></td></tr>');
 
         redisTableJS.innerHTML = '';

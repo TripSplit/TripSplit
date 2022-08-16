@@ -138,3 +138,13 @@ input[type='checkbox']:checked {
 	font-size: 18pt;
 	text-align: left;
 }
+
+
+.warning{
+  color: orange;
+}
+
+.error{
+  color: red;
+  font-size: small;
+}

@@ -20,10 +20,12 @@ class Stay
     AddPerson(name, nights_staying)
     {
         // Check if person is already in the name list. We don't want duplicate names
+        // name_list_in = this.name_list;
+        // console.log(name_list_in);
+        
         if(this.name_list.includes(name))
         {            
-            // Figure out how to raise warnings/errors in JS if this is needed
-            // raise AttributeError("Person {} already added to list. Change name to distinguish.".format(name))
+            return false;
         }
 
         // Check if person is staying after checkout.  Can't do this!
@@ -45,6 +47,8 @@ class Stay
             this.person_shareprice_list_orig.push(0.0); // Adding cost of zero to original shareprice list for the new people
             this.num_guests += 1;
         }
+
+        return true;
     }
 
     CalculateOriginalCosts()
