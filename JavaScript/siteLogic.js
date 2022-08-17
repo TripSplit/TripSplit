@@ -9,14 +9,14 @@ window.onload = function() {
     var recal = 1;
     var recalculating = false;
     
-    // Initialize the activityNumber
-    var activityNumber = 1;
+    // Initialize the personNumber
+    var personNumber = 1;
 
-    // Select the add_activity button
-    var addButton = document.getElementById("add_activity");
-
-    // Select the calculate button
+    // Assign buttons to variables
+    var addButton = document.getElementById("add_person");
     var calcButton = document.getElementById("calculate");
+    var reCalcButton = document.getElementById("make_changes");
+    var redistButton = document.getElementById("redistribute");
 
     // Select the table element
     var calcTableJS = document.getElementById("calcTable");
@@ -29,12 +29,17 @@ window.onload = function() {
 
     const stay = new Stay(document.getElementById("totalCost").value, document.getElementById("totalNights").value);
 
-    // Attach handler to the button click event
+    // Attach handler to the button click events
     addButton.onclick = addPerson;
+    calcButton.onclick = calculate;
+    reCalcButton.onclick = make_changes;
+    redistButton.onclick = redistribute;
+
+    // Calling addPerson so that the page is not empty on load
     addPerson();
 
     function addPerson(){
-        // Add a new row to the table using the correct activityNumber
+        // Add a new row to the table using the correct personNumber
 
         if (recalculating){
         recalTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
@@ -52,8 +57,8 @@ window.onload = function() {
         }
         else{
         calcTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
-            <input type="text" name="person' + activityNumber + '" id="person' + activityNumber + '" class="required" placeholder="Name">');
-            activityNumber += 1;
+            <input type="text" name="person' + personNumber + '" id="person' + personNumber + '" class="required" placeholder="Name">');
+            personNumber += 1;
 
             totalNights = document.getElementById("totalNights").value;
 
@@ -65,8 +70,7 @@ window.onload = function() {
         
     }
 
-    document.getElementById("calculate").addEventListener("click", function() {
-
+    function calculate(){
 
         orgPersons = [];
         orgNights = [];
@@ -108,13 +112,12 @@ window.onload = function() {
             calcResultTableJS.insertAdjacentHTML("beforeend", '<tr><td><label>' + orgPersons[index] + ': $</label><label>' + orgCosts[index].toFixed(2) + '</label><br/></td></tr>');
         }
 
-        document.getElementById("recalculate").disabled = false;
+        document.getElementById("make_changes").disabled = false;
 
-    }, false);
+    }
 
 
-    document.getElementById("recalculate").addEventListener("click", function() {
-
+    function make_changes(){
         var persons, nights, index;
 
         persons = document.querySelectorAll('[id^="person"]');
@@ -156,15 +159,14 @@ window.onload = function() {
         }
 
         document.getElementById("calculate").disabled = true;
-        document.getElementById("recalculate").disabled = true;
+        document.getElementById("make_changes").disabled = true;
         document.getElementById("redistribute").disabled = false;
-        document.getElementById("add_activity").disabled = false;
+        document.getElementById("add_person").disabled = false;
 
 
-    }, false);
+    }
 
-    document.getElementById("redistribute").addEventListener("click", function() {
-
+    function redistribute(){
         var index;
         let repersons = [];
         let renights = [];
@@ -246,7 +248,7 @@ window.onload = function() {
             redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>' + stay.name_list[index] + '</b> should ' + ((stay.amount_to_send[index] > 0) ? '<b>send</b>' : '<b>receive</b>') + ': $</label><label><b>' + Math.abs(stay.amount_to_send[index]).toFixed(2) + '</b></label><br/></td></tr>');
         }
 
-    }, false);
+    }
 
     document.getElementById("totalNights").addEventListener("change", function() {
         var checkBoxes = document.querySelectorAll('[type="checkbox"]');
