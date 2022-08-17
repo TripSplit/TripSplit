@@ -218,13 +218,8 @@ window.onload = function() {
         
         for (index=0; index < repersonsArr.length; index++){
 
-            var isDiff = false;
+            isDiff = !(Array.isArray(renightsArr[index]) && Array.isArray(orgNights[index]) && renightsArr[index].length === orgNights[index].length && renightsArr[index].every((val, j) => val === orgNights[index][j]));
 
-            for(var i = 0; i < renightsArr[index].length; i++){
-                if (renightsArr[index][i] != orgNights[index][i]){
-                    isDiff = true;
-                }
-            }
             
             if (isDiff){
                 stay.ChangePersonNights(repersonsArr[index].innerText, renightsArr[index])
