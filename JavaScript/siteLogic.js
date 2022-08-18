@@ -199,7 +199,7 @@ window.onload = function() {
         const stay = new Stay(totalCost, totalNights);
 
         for (index = 0; index < orgPersons.length; index++) {
-            
+
             if(stay.AddPerson(orgPersons[index],  orgNights[index]))
             {
                 // No error, continue
@@ -263,7 +263,6 @@ window.onload = function() {
         }
 
         for (index = 0; index < AddRepersons.length; index++) {
-            // stay.AddPerson(AddRepersonsArr[index].value, AddRenightsArr[index])
             if(stay.AddPerson(AddRepersonsArr[index].value, AddRenightsArr[index]))
             {
                // No error, continue 
@@ -272,28 +271,49 @@ window.onload = function() {
             {
                 console.log('Should be error siteLogic')
                 redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label class="error">Error: Check that all names are different.</label><label></label><br/></td></tr>');
-                // stay.RemovePerson(AddRepersonsArr[index].value);
                 return 0;
             }
             
         }
 
-        stay.CalculateRedistribution();
+        newCosts = stay.CalculateRedistribution();
 
+        let totalCostDifference = Math.abs(newCosts.reduce((partialSum,a) => partialSum+a, 0) - totalCost);
 
-        
-        redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>Money Redistribution:</b></label><br/></td></tr>');
+        if(totalCostDifference > 1e-3 )
+        {
+            redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>Money Redistribution:</b></label><br/></td></tr>');
 
-        redisTableJS.innerHTML = '';
-        for (index = 0; index < stay.num_guests; index++) {
-            redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>' + stay.name_list[index] + '</b> is staying ' + stay.nights_staying_list[index].length + ' nights. <b>Total Cost</b>: $</label><label><b>' + stay.person_shareprice_list_new[index].toFixed(2) + '</b></label><br/></td></tr>');
+            redisTableJS.innerHTML = '';
+            for (index = 0; index < stay.num_guests; index++) {
+                redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>' + stay.name_list[index] + '</b> is staying ' + stay.nights_staying_list[index].length + ' nights. <b>Total Cost</b>: $</label><label><b>' + stay.person_shareprice_list_new[index].toFixed(2) + '</b></label><br/></td></tr>');
+            }
+    
+            redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><br/></td></tr>');
+            
+            for (index = 0; index < stay.num_guests; index++) {
+                redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>' + stay.name_list[index] + '</b> should ' + ((stay.amount_to_send[index] > 0) ? '<b>send</b>' : '<b>receive</b>') + ': $</label><label><b>' + Math.abs(stay.amount_to_send[index]).toFixed(2) + '</b></label><br/></td></tr>');
+            }
+
+            redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label class="warning">Warning: Attendee costs do not add up to total cost ($'+totalCostDifference.toFixed(2)+' missing). Check to see if each night has a traveler attending.</label><label></label><br/></td></tr>');
         }
+        else
+        {
+            redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>Money Redistribution:</b></label><br/></td></tr>');
 
-        redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><br/></td></tr>');
-        
-        for (index = 0; index < stay.num_guests; index++) {
-            redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>' + stay.name_list[index] + '</b> should ' + ((stay.amount_to_send[index] > 0) ? '<b>send</b>' : '<b>receive</b>') + ': $</label><label><b>' + Math.abs(stay.amount_to_send[index]).toFixed(2) + '</b></label><br/></td></tr>');
+            redisTableJS.innerHTML = '';
+            for (index = 0; index < stay.num_guests; index++) {
+                redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>' + stay.name_list[index] + '</b> is staying ' + stay.nights_staying_list[index].length + ' nights. <b>Total Cost</b>: $</label><label><b>' + stay.person_shareprice_list_new[index].toFixed(2) + '</b></label><br/></td></tr>');
+            }
+    
+            redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><br/></td></tr>');
+            
+            for (index = 0; index < stay.num_guests; index++) {
+                redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>' + stay.name_list[index] + '</b> should ' + ((stay.amount_to_send[index] > 0) ? '<b>send</b>' : '<b>receive</b>') + ': $</label><label><b>' + Math.abs(stay.amount_to_send[index]).toFixed(2) + '</b></label><br/></td></tr>');
+            }
         }
+        
+
 
     }
 

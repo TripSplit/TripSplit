@@ -189,7 +189,11 @@ class Stay
         {
             this.amount_to_send.push(this.person_shareprice_list_new[j]- this.person_shareprice_list_orig[j]);
         }
+
+        return this.person_shareprice_list_new;
+
     }
+    
 }
 
 // Instance of Stay object
