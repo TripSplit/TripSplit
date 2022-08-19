@@ -121,9 +121,16 @@ class Stay
         this.nights_staying_list[index] = nights_staying; // Change the list of the nights they're staying
     }
 
-    RemovePerson(name)
+    RemovePersonByName(name)
     {
         index = this.name_list.indexOf(name); // Get index of person with input name
+        this.nights_staying_list.splice(index,1);
+        this.name_list.splice(index,1);
+        this.num_guests--
+    }
+    
+    RemovePersonByIndex(index)
+    {
         this.nights_staying_list.splice(index,1);
         this.name_list.splice(index,1);
         this.num_guests--

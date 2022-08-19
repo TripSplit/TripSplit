@@ -11,6 +11,7 @@ window.onload = function() {
     
     // Initialize the personNumber
     var personNumber = 1;
+    var addedNumber = 1;
 
     // Assign buttons to variables
     var addButton = document.getElementById("add_person");
@@ -23,6 +24,10 @@ window.onload = function() {
     var recalTableJS = document.getElementById("recalTable");
     var redisTableJS = document.getElementById("redisTable");
     var calcResultTableJS = document.getElementById("calcResultTable");
+
+
+    // list of remove buttons
+    var removeButtonList = [];
 
     // Select the table element
     var resultTable = document.getElementById("resultlist");
@@ -42,10 +47,41 @@ window.onload = function() {
         // Add a new row to the table using the correct personNumber
 
         if (recalculating){
-        recalTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
-            <input type="text" name="AddReperson' + recal + '" id="AddReperson' + recal + '"  value="" placeholder="Name">');
+            recalTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
+                <button class="button-rm" id="new-rm-button-' + (addedNumber) + '" type="button"> <i class="fa fa-trash"></i></button> \
+                <input type="text" name="AddReperson' + recal + '" id="AddReperson' + recal + '"  value="" placeholder="Name">');
             recal++;
-            
+            // add remove button to list of remove buttons
+            newRemoveButtonList.push(document.getElementById("rm-button-" + personNumber));
+            newRemoveButtonList[personNumber-1].idx = personNumber;
+
+
+            // Remove entry when remove button clicked
+            newRemoveButtonList[personNumber-1].onclick = function() {
+
+                for (ii = this.idx; ii < newRemoveButtonList.length; ii++) {
+                    newRemoveButtonList[ii].idx -= 1;
+                    newRemoveButtonList[ii].id = "new-rm-button-" + (ii).toString();
+                    document.getElementById("AddReperson"+(ii+1).toString()).name = "AddReperson"+(ii).toString();
+                    document.getElementById("AddReperson"+(ii+1).toString()).id = "AddReperson"+(ii).toString();
+
+                    while(document.getElementById("addcb"+(ii+1)) != null)
+                    {
+                        document.getElementById("addcb"+(ii+1).toString()).name = "addcb"+(ii).toString();
+                        document.getElementById("addcb"+(ii+1).toString()).id = "addcb"+(ii).toString();
+                    }
+                    console.log({newRemoveButtonList});
+
+                }
+
+
+                document.getElementById("calcTable").deleteRow(this.idx);
+                newRemoveButtonList.splice(this.idx,1);
+                addedNumber -= 1;
+            }
+
+            addedNumber += 1;     
+
             totalNights = document.getElementById("totalNights").value;
 
             AddRepersons = document.querySelectorAll('[id^="AddReperson"]');
@@ -56,9 +92,57 @@ window.onload = function() {
             }
         }
         else{
-        calcTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
-            <input type="text" name="person' + personNumber + '" id="person' + personNumber + '" class="required" placeholder="Name">');
-            personNumber += 1;
+            calcTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
+                <button class="button-rm" id="rm-button-' + personNumber + '" type="button"> <i class="fa fa-trash"></i></button> \
+                <input type="text" name="person' + personNumber + '" id="person' + personNumber + '" class="required" placeholder="Name">');
+            
+            // add remove button to list of remove buttons
+            removeButtonList.push(document.getElementById("rm-button-" + personNumber));
+            removeButtonList[personNumber-1].idx = personNumber;
+
+
+            // Remove entry when remove button clicked
+            removeButtonList[personNumber-1].onclick = function() {
+                console.log({removeButtonList, personNumber});
+                console.log("this.idx: " + this.idx)
+
+                if (this.idx == personNumber-1)
+                {
+
+                }
+                else
+                {
+
+
+                    for (ii = this.idx; ii < removeButtonList.length; ii++) {
+                        removeButtonList[ii].idx -= 1;
+                        removeButtonList[ii].id = "rm-button-" + (ii).toString();
+                        console.log({ii});
+                        document.getElementById("person"+(ii+1).toString()).name = "person"+(ii).toString();
+                        document.getElementById("person"+(ii+1).toString()).id = "person"+(ii).toString();
+
+                        while(document.getElementById("cb"+(ii+1)) != null)
+                        {
+                            document.getElementById("cb"+(ii+1).toString()).name = "cb"+(ii).toString();
+                            document.getElementById("cb"+(ii+1).toString()).id = "cb"+(ii).toString();
+                        }
+
+                    }
+
+
+                    // document.getElementById("calcTable").deleteRow(this.idx);
+                    var tbl = document.getElementById("calcTable");
+                    tbl.removeChild(tbl.getElementsByTagName("tbody")[this.idx]);
+                    removeButtonList.splice(this.idx,1);
+                    personNumber -= 1;
+                }
+                console.log({removeButtonList, personNumber});
+
+            }
+
+            personNumber += 1;      
+
+            console.log({removeButtonList, personNumber});
 
             totalNights = document.getElementById("totalNights").value;
 
@@ -137,6 +221,7 @@ window.onload = function() {
             }
         }
 
+
         document.getElementById("make_changes").disabled = false;
 
     }
@@ -149,6 +234,8 @@ window.onload = function() {
 
         for(index = 1; index <= persons.length; index++){
             document.getElementById("person" + index).disabled = true;
+            console.log('rm-button-'+(index).toString());
+            document.getElementById('rm-button-'+(index).toString()).disabled = true;
         }
 
         checkboxes = document.querySelectorAll('[id^="cb"]');
