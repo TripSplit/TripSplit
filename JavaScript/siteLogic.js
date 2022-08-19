@@ -10,7 +10,7 @@ window.onload = function() {
     var recalculating = false;
     
     // Initialize the personNumber
-    var personNumber = 1;
+    var personNumber = 0;
     var addedNumber = 1;
 
     // Assign buttons to variables
@@ -93,24 +93,40 @@ window.onload = function() {
         }
         else{
             calcTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
-                <button class="button-rm" id="rm-button-' + personNumber + '" type="button"> <i class="fa fa-trash"></i></button> \
-                <input type="text" name="person' + personNumber + '" id="person' + personNumber + '" class="required" placeholder="Name">');
+                <button class="button-rm" id="rm-button-' + (personNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
+                <input type="text" name="person' + (personNumber+1).toString() + '" id="person' + (personNumber+1).toString() + '" class="required" placeholder="Name">');
             
             // add remove button to list of remove buttons
-            removeButtonList.push(document.getElementById("rm-button-" + personNumber));
-            removeButtonList[personNumber-1].idx = personNumber;
+            removeButtonList.push(document.getElementById("rm-button-" + (personNumber+1).toString()));
+            removeButtonList[personNumber].idx = personNumber+1;
 
 
             // Remove entry when remove button clicked
-            removeButtonList[personNumber-1].onclick = function() {
+            removeButtonList[personNumber].onclick = function() {
                 console.log({removeButtonList, personNumber});
                 console.log("this.idx: " + this.idx)
 
-                if (this.idx == personNumber-1)
+                if (this.idx == personNumber) // if deleting last row
                 {
+                    ii = personNumber-1;
+                    removeButtonList[ii].idx -= 1;
+                    removeButtonList[ii].id = "rm-button-" + (ii).toString();
+                    console.log({ii});
+                    document.getElementById("person"+(ii+1).toString()).name = "person"+(ii).toString();
+                    document.getElementById("person"+(ii+1).toString()).id = "person"+(ii).toString();
 
+                    while(document.getElementById("cb"+(ii+1)) != null)
+                    {
+                        document.getElementById("cb"+(ii+1).toString()).name = "cb"+(ii).toString();
+                        document.getElementById("cb"+(ii+1).toString()).id = "cb"+(ii).toString();
+                    }
+
+                    var tbl = document.getElementById("calcTable");
+                    tbl.removeChild(tbl.getElementsByTagName("tbody")[this.idx+1]);
+                    removeButtonList.splice(this.idx,1);
+                    personNumber -= 1;
                 }
-                else
+                else // if deleting anyone before last row
                 {
 
 
@@ -132,7 +148,7 @@ window.onload = function() {
 
                     // document.getElementById("calcTable").deleteRow(this.idx);
                     var tbl = document.getElementById("calcTable");
-                    tbl.removeChild(tbl.getElementsByTagName("tbody")[this.idx]);
+                    tbl.removeChild(tbl.getElementsByTagName("tbody")[this.idx+1]);
                     removeButtonList.splice(this.idx,1);
                     personNumber -= 1;
                 }
