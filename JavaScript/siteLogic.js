@@ -51,71 +51,16 @@ window.onload = function() {
             recalTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
                 <button class="button-rm" id="new-rm-button-' + (addedNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
                 <input type="text" name="AddReperson' + (addedNumber+1).toString() + '" id="AddReperson' + (addedNumber+1).toString() + '"  value="" placeholder="Name">');
+
+            // $("#recalTable").append('<tr><td> \
+            //     <button class="button-rm" id="new-rm-button-' + (addedNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
+            //     <input type="text" name="AddReperson' + (addedNumber+1).toString() + '" id="AddReperson' + (addedNumber+1).toString() + '"  value="" placeholder="Name">');
+
+            $("#recalTable").on("click", ".button-rm", function() {
+                $(this).closest("tr").remove();
+                });
+
             recal++;
-            // add remove button to list of remove buttons
-            newRemoveButtonList.push(document.getElementById("new-rm-button-" + (addedNumber+1).toString()));
-            newRemoveButtonList[addedNumber].idx = addedNumber+1;
-            console.log("new-rm-button-" + (addedNumber+1).toString());
-
-
-            // Remove entry when remove button clicked
-            newRemoveButtonList[addedNumber].onclick = function() {
-                console.log({addedNumber, newRemoveButtonList});
-                console.log("this.idx: " + this.idx)
-
-                var tbl = document.getElementById("recalTable");
-                console.log('Table length before: ' + tbl.getElementsByTagName("tbody").length)
-
-                if (this.idx == addedNumber)
-                {
-                    console.log("in IF statement");
-                    ii = addedNumber-1;
-                    newRemoveButtonList[ii].idx -= 1;
-                    newRemoveButtonList[ii].id = "new-rm-button-" + (ii).toString();
-                    console.log({ii});
-                    document.getElementById("AddReperson"+(ii+1).toString()).name = "AddReperson"+(ii).toString();
-                    document.getElementById("AddReperson"+(ii+1).toString()).id = "AddReperson"+(ii).toString();
-
-                    while(document.getElementById("addcb"+(ii+1)) != null)
-                    {
-                        document.getElementById("addcb"+(ii+1).toString()).name = "addcb"+(ii).toString();
-                        document.getElementById("addcb"+(ii+1).toString()).id = "addcb"+(ii).toString();
-                    }
-                    // document.getElementById("calcTable").deleteRow(this.idx);
-                    var tbl = document.getElementById("recalTable");
-                    tbl.removeChild(tbl.getElementsByTagName("tbody")[this.idx+personNumber+1]);
-                    newRemoveButtonList.splice(this.idx,1);
-                    addedNumber -= 1;
-                }
-                else
-                {
-                    console.log("in ELSE statement")
-                    for (ii = this.idx; ii < newRemoveButtonList.length; ii++) {
-                        newRemoveButtonList[ii].idx -= 1;
-                        newRemoveButtonList[ii].id = "new-rm-button-" + (ii).toString();
-                        console.log({ii});
-                        document.getElementById("AddReperson"+(ii+1).toString()).name = "AddReperson"+(ii).toString();
-                        document.getElementById("AddReperson"+(ii+1).toString()).id = "AddReperson"+(ii).toString();
-
-                        while(document.getElementById("addcb"+(ii+1)) != null)
-                        {
-                            document.getElementById("addcb"+(ii+1).toString()).name = "addcb"+(ii).toString();
-                            document.getElementById("addcb"+(ii+1).toString()).id = "addcb"+(ii).toString();
-                        }
-
-                    }
-
-
-                    // document.getElementById("calcTable").deleteRow(this.idx);
-                    var tbl = document.getElementById("recalTable");
-                    tbl.removeChild(tbl.getElementsByTagName("tbody")[this.idx+personNumber]);
-                    newRemoveButtonList.splice(this.idx,1);
-                    addedNumber -= 1;
-                }
-                console.log('Table length after: ' + tbl.getElementsByTagName("tbody").length)
-                console.log({addedNumber, newRemoveButtonList});
-
-            }
 
             addedNumber += 1;     
             console.log({newRemoveButtonList, addedNumber});
@@ -134,67 +79,16 @@ window.onload = function() {
                 <button class="button-rm" id="rm-button-' + (personNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
                 <input type="text" name="person' + (personNumber+1).toString() + '" id="person' + (personNumber+1).toString() + '" class="required" placeholder="Name">');
             
-            // add remove button to list of remove buttons
-            removeButtonList.push(document.getElementById("rm-button-" + (personNumber+1).toString()));
-            removeButtonList[personNumber].idx = personNumber+1;
+            // $("#calcTable").append('<tr><td> \
+            //     <button class="button-rm" id="rm-button-' + (personNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
+            //     <input type="text" name="person' + (personNumber+1).toString() + '" id="person' + (personNumber+1).toString() + '" class="required" placeholder="Name">');
+            
+            $("#calcTable").on("click", ".button-rm", function() {
+                $(this).closest("tr").remove();
+                personNumber -= 1;
+              });
 
-
-            // Remove entry when remove button clicked
-            removeButtonList[personNumber].onclick = function() {
-                console.log({removeButtonList, personNumber});
-                console.log("this.idx: " + this.idx)
-
-                if (this.idx == personNumber) // if deleting last row
-                {
-                    ii = personNumber-1;
-                    removeButtonList[ii].idx -= 1;
-                    removeButtonList[ii].id = "rm-button-" + (ii).toString();
-                    console.log({ii});
-                    document.getElementById("person"+(ii+1).toString()).name = "person"+(ii).toString();
-                    document.getElementById("person"+(ii+1).toString()).id = "person"+(ii).toString();
-
-                    while(document.getElementById("cb"+(ii+1)) != null)
-                    {
-                        document.getElementById("cb"+(ii+1).toString()).name = "cb"+(ii).toString();
-                        document.getElementById("cb"+(ii+1).toString()).id = "cb"+(ii).toString();
-                    }
-
-                    var tbl = document.getElementById("calcTable");
-                    tbl.removeChild(tbl.getElementsByTagName("tbody")[this.idx+1]);
-                    removeButtonList.splice(this.idx,1);
-                    personNumber -= 1;
-                }
-                else // if deleting anyone before last row
-                {
-
-
-                    for (ii = this.idx; ii < removeButtonList.length; ii++) {
-                        removeButtonList[ii].idx -= 1;
-                        removeButtonList[ii].id = "rm-button-" + (ii).toString();
-                        console.log({ii});
-                        document.getElementById("person"+(ii+1).toString()).name = "person"+(ii).toString();
-                        document.getElementById("person"+(ii+1).toString()).id = "person"+(ii).toString();
-
-                        while(document.getElementById("cb"+(ii+1)) != null)
-                        {
-                            document.getElementById("cb"+(ii+1).toString()).name = "cb"+(ii).toString();
-                            document.getElementById("cb"+(ii+1).toString()).id = "cb"+(ii).toString();
-                        }
-
-                    }
-
-
-                    // document.getElementById("calcTable").deleteRow(this.idx);
-                    var tbl = document.getElementById("calcTable");
-                    tbl.removeChild(tbl.getElementsByTagName("tbody")[this.idx+1]);
-                    removeButtonList.splice(this.idx,1);
-                    personNumber -= 1;
-                }
-                console.log({removeButtonList, personNumber});
-
-            }
-
-            personNumber += 1;      
+            personNumber += 1;
 
             console.log({removeButtonList, personNumber});
 
@@ -215,6 +109,7 @@ window.onload = function() {
         totalCost = document.getElementById("totalCost").value;
         totalNights = document.getElementById("totalNights").value;
 
+        console.log(calcTableJS.value);
     
         const stay = new Stay(totalCost, totalNights);
 
@@ -303,15 +198,20 @@ window.onload = function() {
         recalculating = true;
         recal = 1;
 
-        recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>Modifications:</b></label></td><td><label><b>Nights</b></label></td></tr>');
-
+        // recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>Modifications:</b></label></td><td><label><b>Nights</b></label></td></tr>');
+        recalTableJS.insertAdjacentHTML("beforeend", '<th>Modifications:</th><th>Nights</th>');
+        // $("#recalTable").append('<th>Modifications:</th><th>Nights</th>');
+        
+        
         var iter = 1;
 
         for (index = 0; index < orgPersons.length; index++) {
 
             recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label name="reperson' + recal + '" id="reperson' + recal + '">' + orgPersons[index] + ' </label> \
             ');
-            
+            // $("#recalTable").append('<tr><td><label name="reperson' + recal + '" id="reperson' + recal + '">' + orgPersons[index] + ' </label> \
+            // ');
+
             for(var i=0; i < totalNights; i++){
                 if(orgNights[index].includes(i)){
                     recalTableJS.rows[iter].insertAdjacentHTML("beforeend", '<input type="checkbox" name="recb'+iter+'" id="recb'+iter+'" checked>'); 
