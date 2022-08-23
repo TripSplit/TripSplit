@@ -11,7 +11,7 @@ window.onload = function() {
     
     // Initialize the personNumber
     var personNumber = 0;
-    var addedNumber = 1;
+    var addedNumber = 0;
 
     // Assign buttons to variables
     var addButton = document.getElementById("add_person");
@@ -28,6 +28,7 @@ window.onload = function() {
 
     // list of remove buttons
     var removeButtonList = [];
+    var newRemoveButtonList = [];
 
     // Select the table element
     var resultTable = document.getElementById("resultlist");
@@ -48,20 +49,30 @@ window.onload = function() {
 
         if (recalculating){
             recalTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
-                <button class="button-rm" id="new-rm-button-' + (addedNumber) + '" type="button"> <i class="fa fa-trash"></i></button> \
-                <input type="text" name="AddReperson' + recal + '" id="AddReperson' + recal + '"  value="" placeholder="Name">');
+                <button class="button-rm" id="new-rm-button-' + (addedNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
+                <input type="text" name="AddReperson' + (addedNumber+1).toString() + '" id="AddReperson' + (addedNumber+1).toString() + '"  value="" placeholder="Name">');
             recal++;
             // add remove button to list of remove buttons
-            newRemoveButtonList.push(document.getElementById("rm-button-" + personNumber));
-            newRemoveButtonList[personNumber-1].idx = personNumber;
+            newRemoveButtonList.push(document.getElementById("new-rm-button-" + (addedNumber+1).toString()));
+            newRemoveButtonList[addedNumber].idx = addedNumber+1;
+            console.log("new-rm-button-" + (addedNumber+1).toString());
 
 
             // Remove entry when remove button clicked
-            newRemoveButtonList[personNumber-1].onclick = function() {
+            newRemoveButtonList[addedNumber].onclick = function() {
+                console.log({addedNumber, newRemoveButtonList});
+                console.log("this.idx: " + this.idx)
 
-                for (ii = this.idx; ii < newRemoveButtonList.length; ii++) {
+                var tbl = document.getElementById("recalTable");
+                console.log('Table length before: ' + tbl.getElementsByTagName("tbody").length)
+
+                if (this.idx == addedNumber)
+                {
+                    console.log("in IF statement");
+                    ii = addedNumber-1;
                     newRemoveButtonList[ii].idx -= 1;
                     newRemoveButtonList[ii].id = "new-rm-button-" + (ii).toString();
+                    console.log({ii});
                     document.getElementById("AddReperson"+(ii+1).toString()).name = "AddReperson"+(ii).toString();
                     document.getElementById("AddReperson"+(ii+1).toString()).id = "AddReperson"+(ii).toString();
 
@@ -70,17 +81,44 @@ window.onload = function() {
                         document.getElementById("addcb"+(ii+1).toString()).name = "addcb"+(ii).toString();
                         document.getElementById("addcb"+(ii+1).toString()).id = "addcb"+(ii).toString();
                     }
-                    console.log({newRemoveButtonList});
-
+                    // document.getElementById("calcTable").deleteRow(this.idx);
+                    var tbl = document.getElementById("recalTable");
+                    tbl.removeChild(tbl.getElementsByTagName("tbody")[this.idx+personNumber+1]);
+                    newRemoveButtonList.splice(this.idx,1);
+                    addedNumber -= 1;
                 }
+                else
+                {
+                    console.log("in ELSE statement")
+                    for (ii = this.idx; ii < newRemoveButtonList.length; ii++) {
+                        newRemoveButtonList[ii].idx -= 1;
+                        newRemoveButtonList[ii].id = "new-rm-button-" + (ii).toString();
+                        console.log({ii});
+                        document.getElementById("AddReperson"+(ii+1).toString()).name = "AddReperson"+(ii).toString();
+                        document.getElementById("AddReperson"+(ii+1).toString()).id = "AddReperson"+(ii).toString();
+
+                        while(document.getElementById("addcb"+(ii+1)) != null)
+                        {
+                            document.getElementById("addcb"+(ii+1).toString()).name = "addcb"+(ii).toString();
+                            document.getElementById("addcb"+(ii+1).toString()).id = "addcb"+(ii).toString();
+                        }
+
+                    }
 
 
-                document.getElementById("calcTable").deleteRow(this.idx);
-                newRemoveButtonList.splice(this.idx,1);
-                addedNumber -= 1;
+                    // document.getElementById("calcTable").deleteRow(this.idx);
+                    var tbl = document.getElementById("recalTable");
+                    tbl.removeChild(tbl.getElementsByTagName("tbody")[this.idx+personNumber]);
+                    newRemoveButtonList.splice(this.idx,1);
+                    addedNumber -= 1;
+                }
+                console.log('Table length after: ' + tbl.getElementsByTagName("tbody").length)
+                console.log({addedNumber, newRemoveButtonList});
+
             }
 
             addedNumber += 1;     
+            console.log({newRemoveButtonList, addedNumber});
 
             totalNights = document.getElementById("totalNights").value;
 
