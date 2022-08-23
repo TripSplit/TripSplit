@@ -7,7 +7,7 @@ window.onload = function() {
     var orgCosts = [];
 
     var recal = 1;
-    var recalculating = false;
+    var making_changes = false;
     
     // Initialize the personNumber
     var personNumber = 0;
@@ -47,7 +47,7 @@ window.onload = function() {
     function addPerson(){
         // Add a new row to the table using the correct personNumber
 
-        if (recalculating){
+        if (making_changes){
             recalTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
                 <button class="button-rm" id="new-rm-button-' + (addedNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
                 <input type="text" name="AddReperson' + (addedNumber+1).toString() + '" id="AddReperson' + (addedNumber+1).toString() + '"  value="" placeholder="Name">');
@@ -56,7 +56,7 @@ window.onload = function() {
             //     <button class="button-rm" id="new-rm-button-' + (addedNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
             //     <input type="text" name="AddReperson' + (addedNumber+1).toString() + '" id="AddReperson' + (addedNumber+1).toString() + '"  value="" placeholder="Name">');
 
-            $("#recalTable").on("click", ".button-rm", function() {
+            $("#new-rm-button-" + (addedNumber+1).toString()).on("click", function() {
                 $(this).closest("tr").remove();
                 });
 
@@ -83,9 +83,11 @@ window.onload = function() {
             //     <button class="button-rm" id="rm-button-' + (personNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
             //     <input type="text" name="person' + (personNumber+1).toString() + '" id="person' + (personNumber+1).toString() + '" class="required" placeholder="Name">');
             
-            $("#calcTable").on("click", ".button-rm", function() {
+            $("#rm-button-" + (personNumber+1).toString() ).on("click", function() {
                 $(this).closest("tr").remove();
                 personNumber -= 1;
+                console.log("Clicked remove button");
+                console.log({removeButtonList, personNumber});
               });
 
             personNumber += 1;
@@ -195,7 +197,7 @@ window.onload = function() {
         document.getElementById("totalCost").disabled = true;
         document.getElementById("totalNights").disabled = true;
 
-        recalculating = true;
+        making_changes = true;
         recal = 1;
 
         // recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>Modifications:</b></label></td><td><label><b>Nights</b></label></td></tr>');
