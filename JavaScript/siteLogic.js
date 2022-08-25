@@ -51,54 +51,44 @@ window.onload = function() {
             recalTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
                 <button class="button-rm" id="new-rm-button-' + (addedNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
                 <input type="text" name="AddReperson' + (addedNumber+1).toString() + '" id="AddReperson' + (addedNumber+1).toString() + '"  value="" placeholder="Name">');
-
-            // $("#recalTable").append('<tr><td> \
-            //     <button class="button-rm" id="new-rm-button-' + (addedNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
-            //     <input type="text" name="AddReperson' + (addedNumber+1).toString() + '" id="AddReperson' + (addedNumber+1).toString() + '"  value="" placeholder="Name">');
-
+            
+            // Function for remove button
             $("#new-rm-button-" + (addedNumber+1).toString()).on("click", function() {
                 $(this).closest("tr").remove();
                 });
 
             recal++;
 
-            addedNumber += 1;     
-            console.log({newRemoveButtonList, addedNumber});
 
             totalNights = document.getElementById("totalNights").value;
 
             AddRepersons = document.querySelectorAll('[id^="AddReperson"]');
             addedLength = AddRepersons.length;
 
-            for(var i=0; i < totalNights; i++){
-                recalTableJS.rows[recalTableJS.rows.length-1].insertAdjacentHTML("beforeend", '<input type="checkbox" name="addcb'+(addedLength)+'" id="addcb'+(addedLength)+'"/>'); 
+            for(var i=0; i < totalNights; i++){ // Add checkboxes
+                recalTableJS.rows[recalTableJS.rows.length-1].insertAdjacentHTML("beforeend", '<input type="checkbox" name="addcb'+(addedNumber+1).toString()+'" id="addcb'+(addedNumber+1).toString()+'"/>'); 
             }
+            addedNumber += 1;     
+
         }
         else{
             calcTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
                 <button class="button-rm" id="rm-button-' + (personNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
                 <input type="text" name="person' + (personNumber+1).toString() + '" id="person' + (personNumber+1).toString() + '" class="required" placeholder="Name">');
             
-            // $("#calcTable").append('<tr><td> \
-            //     <button class="button-rm" id="rm-button-' + (personNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
-            //     <input type="text" name="person' + (personNumber+1).toString() + '" id="person' + (personNumber+1).toString() + '" class="required" placeholder="Name">');
-            
+            // Function for remove button
             $("#rm-button-" + (personNumber+1).toString() ).on("click", function() {
                 $(this).closest("tr").remove();
-                personNumber -= 1;
-                console.log("Clicked remove button");
-                console.log({removeButtonList, personNumber});
               });
 
-            personNumber += 1;
-
-            console.log({removeButtonList, personNumber});
 
             totalNights = document.getElementById("totalNights").value;
 
-            for(var i=0; i < totalNights; i++){
-                calcTableJS.rows[calcTableJS.rows.length-1].insertAdjacentHTML("beforeend", '<input type="checkbox" name="cb'+(calcTableJS.rows.length-1)+'" id="cb'+(calcTableJS.rows.length-1)+'"/>'); 
+            for(var i=0; i < totalNights; i++){ // Add checkboxes
+                calcTableJS.rows[calcTableJS.rows.length-1].insertAdjacentHTML("beforeend", '<input type="checkbox" name="cb'+(personNumber+1).toString()+'" id="cb'+(personNumber+1).toString()+'"/>'); 
             }
+            personNumber += 1;
+
         }    
         
         
@@ -110,31 +100,38 @@ window.onload = function() {
         orgNights = [];
         totalCost = document.getElementById("totalCost").value;
         totalNights = document.getElementById("totalNights").value;
-
-        console.log(calcTableJS.value);
     
         const stay = new Stay(totalCost, totalNights);
 
         var persons, nights, index;
         
+
         persons = document.querySelectorAll('[id^="person"]');
         var personsArr = Array.from(persons);
 
         nights = document.querySelectorAll('[id^="nights"]');
         var nightsArr = Array.from(nights);
-        console.log({orgNights,nights,nightsArr});
 
         //Checkboxes get turned into arrays here
         for (index = 0; index < personsArr.length; index++) {
-            var checkBoxes = document.querySelectorAll('[name="cb'+(index+1)+'"]');
+            person_idx = personsArr[index].getId;
+
+            var checkBoxes = document.querySelectorAll('[name="cb'+personsArr[index].name.match(/\d+$/)+'"]');
 
             var per, night=[];
 
             per = personsArr[index].value;
             orgPersons.push(per);
+
+            // Grab nights each person is staying
             for(var j = 0; j < totalNights; j++){
-                if(checkBoxes[j].checked){
-                    night.push(j);
+                if(checkBoxes[j] == null){ // Check if checkbox exists
+                    continue;
+                }
+                else{
+                    if(checkBoxes[j].checked){
+                        night.push(j);
+                    }
                 }
             }
 
@@ -156,6 +153,7 @@ window.onload = function() {
 
         let totalCostDifference = Math.abs(orgCosts.reduce((partialSum,a) => partialSum+a, 0) - totalCost);
 
+        // Error check
         if(totalCostDifference > 1e-3 )
         {
             calcResultTableJS.innerHTML = '';
@@ -182,11 +180,11 @@ window.onload = function() {
         var persons, nights, index;
 
         persons = document.querySelectorAll('[id^="person"]');
+        var personsArr = Array.from(persons);
 
-        for(index = 1; index <= persons.length; index++){
-            document.getElementById("person" + index).disabled = true;
-            console.log('rm-button-'+(index).toString());
-            document.getElementById('rm-button-'+(index).toString()).disabled = true;
+        for(index = 0; index < personsArr.length; index++){
+            document.getElementById("person" + personsArr[index].name.match(/\d+$/)).disabled = true;
+            document.getElementById('rm-button-'+personsArr[index].name.match(/\d+$/)).disabled = true;
         }
 
         checkboxes = document.querySelectorAll('[id^="cb"]');
@@ -200,10 +198,7 @@ window.onload = function() {
         making_changes = true;
         recal = 1;
 
-        // recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>Modifications:</b></label></td><td><label><b>Nights</b></label></td></tr>');
-        recalTableJS.insertAdjacentHTML("beforeend", '<th>Modifications:</th><th>Nights</th>');
-        // $("#recalTable").append('<th>Modifications:</th><th>Nights</th>');
-        
+        recalTableJS.insertAdjacentHTML("beforeend", '<th>Modifications:</th><th>Nights</th>');        
         
         var iter = 1;
 
@@ -211,8 +206,6 @@ window.onload = function() {
 
             recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label name="reperson' + recal + '" id="reperson' + recal + '">' + orgPersons[index] + ' </label> \
             ');
-            // $("#recalTable").append('<tr><td><label name="reperson' + recal + '" id="reperson' + recal + '">' + orgPersons[index] + ' </label> \
-            // ');
 
             for(var i=0; i < totalNights; i++){
                 if(orgNights[index].includes(i)){
@@ -281,7 +274,7 @@ window.onload = function() {
 
         ////
         for (index = 0; index < AddRepersons.length; index++) {
-            var AddReCheckBoxes = document.querySelectorAll('[name="addcb'+(index+1)+'"]');
+            var AddReCheckBoxes = document.querySelectorAll('[name="addcb'+AddRepersonsArr[index].name.match(/\d+$/)+'"]');
             var night =[];
 
             for(var j = 0; j < totalNights; j++){
@@ -312,7 +305,6 @@ window.onload = function() {
             }
             else
             {
-                console.log('Should be error siteLogic')
                 redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label class="error">Error: Check that all names are different.</label><label></label><br/></td></tr>');
                 return 0;
             }
@@ -368,11 +360,16 @@ window.onload = function() {
             checkBoxes[index].remove();
         }
 
+        persons = document.querySelectorAll('[id^="person"]');
+        var personsArr = Array.from(persons);
+
         totalNights = document.getElementById("totalNights").value;
 
         for (var iter=1; iter < calcTableJS.rows.length; iter++){
+            person_idx = personsArr[iter-1].getId;
+
             for(var i=0; i < totalNights; i++){
-                calcTableJS.rows[iter].insertAdjacentHTML("beforeend", '<input type="checkbox" name="cb'+iter+'" id="cb'+iter+'"/>'); 
+                calcTableJS.rows[iter].insertAdjacentHTML("beforeend", '<input type="checkbox" name="cb'+personsArr[iter-1].name.match(/\d+$/)+'" id="cb'+personsArr[iter-1].name.match(/\d+$/)+'"/>'); 
             }
         }
     }, false);
