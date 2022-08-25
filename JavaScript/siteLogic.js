@@ -83,9 +83,19 @@ window.onload = function() {
             //     <button class="button-rm" id="rm-button-' + (personNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
             //     <input type="text" name="person' + (personNumber+1).toString() + '" id="person' + (personNumber+1).toString() + '" class="required" placeholder="Name">');
             
+            //TODO: Make the iterating code below more efficient with different algorithm
             $("#rm-button-" + (personNumber+1).toString() ).on("click", function() {
                 $(this).closest("tr").remove();
                 personNumber -= 1;
+                persons = document.querySelectorAll('[id^="person"]');
+                cb = document.querySelectorAll('[id^="cb"]');
+                rm_buttons = document.querySelectorAll('[id^="rm-button"]');
+
+                for(var i=0; i < persons.length; i++){
+                    persons[i].id = ('person' + (i+1))
+                    persons[i].name = ('person' + (i+1))
+                    rm_buttons[i].id = ('rm-button-' + (i+1))
+                }
                 console.log("Clicked remove button");
                 console.log({removeButtonList, personNumber});
               });
