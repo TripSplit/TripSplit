@@ -79,7 +79,8 @@ window.onload = function() {
             // Function for remove button
             $("#rm-button-" + (personNumber+1).toString() ).on("click", function() {
                 $(this).closest("tr").remove();
-              });
+
+            });
 
 
             totalNights = document.getElementById("totalNights").value;
