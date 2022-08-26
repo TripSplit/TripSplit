@@ -48,9 +48,10 @@ window.onload = function() {
         // Add a new row to the table using the correct personNumber
 
         if (making_changes){
-            recalTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
+            newPerson = recalTableJS.insertRow();
+            newPerson.innerHTML = '<td> \
                 <button class="button-rm" id="new-rm-button-' + (addedNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
-                <input type="text" name="AddReperson' + (addedNumber+1).toString() + '" id="AddReperson' + (addedNumber+1).toString() + '"  value="" placeholder="Name">');
+                <input type="text" name="AddReperson' + (addedNumber+1).toString() + '" id="AddReperson' + (addedNumber+1).toString() + '"  value="" placeholder="Name">';
             
             // Function for remove button
             $("#new-rm-button-" + (addedNumber+1).toString()).on("click", function() {
@@ -72,10 +73,11 @@ window.onload = function() {
 
         }
         else{
-            calcTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
+            newPerson = calcTableJS.insertRow();
+            newPerson.innerHTML = '<tr><td> \
                 <button class="button-rm" id="rm-button-' + (personNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
-                <input type="text" name="person' + (personNumber+1).toString() + '" id="person' + (personNumber+1).toString() + '" class="required" placeholder="Name">');
-            
+                <input type="text" name="person' + (personNumber+1).toString() + '" id="person' + (personNumber+1).toString() + '" class="required" placeholder="Name">';
+
             // Function for remove button
             $("#rm-button-" + (personNumber+1).toString() ).on("click", function() {
                 $(this).closest("tr").remove();
