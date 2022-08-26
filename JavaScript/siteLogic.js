@@ -334,4 +334,13 @@ window.onload = function() {
         }
     }, false);
 
+    document.getElementById("footer-share-button").onclick = function() {
+
+
+         /* Copy the text inside the text field */
+        navigator.clipboard.writeText("https://tripsplit.io/");
+      
+        /* Alert the copied text */
+        alert("Copied site link https://tripsplit.io/ to clipboard!");
+      }
 }
