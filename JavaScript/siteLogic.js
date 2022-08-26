@@ -7,10 +7,11 @@ window.onload = function() {
     var orgCosts = [];
 
     var recal = 1;
-    var recalculating = false;
+    var making_changes = false;
     
     // Initialize the personNumber
-    var personNumber = 1;
+    var personNumber = 0;
+    var addedNumber = 0;
 
     // Assign buttons to variables
     var addButton = document.getElementById("add_person");
@@ -23,6 +24,11 @@ window.onload = function() {
     var recalTableJS = document.getElementById("recalTable");
     var redisTableJS = document.getElementById("redisTable");
     var calcResultTableJS = document.getElementById("calcResultTable");
+
+
+    // list of remove buttons
+    var removeButtonList = [];
+    var newRemoveButtonList = [];
 
     // Select the table element
     var resultTable = document.getElementById("resultlist");
@@ -41,30 +47,51 @@ window.onload = function() {
     function addPerson(){
         // Add a new row to the table using the correct personNumber
 
-        if (recalculating){
-        recalTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
-            <input type="text" name="AddReperson' + recal + '" id="AddReperson' + recal + '"  value="" placeholder="Name">');
-            recal++;
+        if (making_changes){
+            newPerson = recalTableJS.insertRow();
+            newPerson.innerHTML = '<td> \
+                <button class="button-rm" id="new-rm-button-' + (addedNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
+                <input type="text" name="AddReperson' + (addedNumber+1).toString() + '" id="AddReperson' + (addedNumber+1).toString() + '"  value="" placeholder="Name">';
             
+            // Function for remove button
+            $("#new-rm-button-" + (addedNumber+1).toString()).on("click", function() {
+                $(this).closest("tr").remove();
+                });
+
+            recal++;
+
+
             totalNights = document.getElementById("totalNights").value;
 
             AddRepersons = document.querySelectorAll('[id^="AddReperson"]');
             addedLength = AddRepersons.length;
 
-            for(var i=0; i < totalNights; i++){
-                recalTableJS.rows[recalTableJS.rows.length-1].insertAdjacentHTML("beforeend", '<input type="checkbox" name="addcb'+(addedLength)+'" id="addcb'+(addedLength)+'"/>'); 
+            for(var i=0; i < totalNights; i++){ // Add checkboxes
+                recalTableJS.rows[recalTableJS.rows.length-1].insertAdjacentHTML("beforeend", '<input type="checkbox" name="addcb'+(addedNumber+1).toString()+'" id="addcb'+(addedNumber+1).toString()+'"/>'); 
             }
+            addedNumber += 1;     
+
         }
         else{
-        calcTableJS.insertAdjacentHTML("beforeend", '<tr><td> \
-            <input type="text" name="person' + personNumber + '" id="person' + personNumber + '" class="required" placeholder="Name">');
-            personNumber += 1;
+            newPerson = calcTableJS.insertRow();
+            newPerson.innerHTML = '<tr><td> \
+                <button class="button-rm" id="rm-button-' + (personNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
+                <input type="text" name="person' + (personNumber+1).toString() + '" id="person' + (personNumber+1).toString() + '" class="required" placeholder="Name">';
+
+            // Function for remove button
+            $("#rm-button-" + (personNumber+1).toString() ).on("click", function() {
+                $(this).closest("tr").remove();
+
+            });
+
 
             totalNights = document.getElementById("totalNights").value;
 
-            for(var i=0; i < totalNights; i++){
-                calcTableJS.rows[calcTableJS.rows.length-1].insertAdjacentHTML("beforeend", '<input type="checkbox" name="cb'+(calcTableJS.rows.length-1)+'" id="cb'+(calcTableJS.rows.length-1)+'"/>'); 
+            for(var i=0; i < totalNights; i++){ // Add checkboxes
+                calcTableJS.rows[calcTableJS.rows.length-1].insertAdjacentHTML("beforeend", '<input type="checkbox" name="cb'+(personNumber+1).toString()+'" id="cb'+(personNumber+1).toString()+'"/>'); 
             }
+            personNumber += 1;
+
         }    
         
         
@@ -76,30 +103,38 @@ window.onload = function() {
         orgNights = [];
         totalCost = document.getElementById("totalCost").value;
         totalNights = document.getElementById("totalNights").value;
-
     
         const stay = new Stay(totalCost, totalNights);
 
         var persons, nights, index;
         
+
         persons = document.querySelectorAll('[id^="person"]');
         var personsArr = Array.from(persons);
 
         nights = document.querySelectorAll('[id^="nights"]');
         var nightsArr = Array.from(nights);
-        console.log({orgNights,nights,nightsArr});
 
         //Checkboxes get turned into arrays here
         for (index = 0; index < personsArr.length; index++) {
-            var checkBoxes = document.querySelectorAll('[name="cb'+(index+1)+'"]');
+            person_idx = personsArr[index].getId;
+
+            var checkBoxes = document.querySelectorAll('[name="cb'+personsArr[index].name.match(/\d+$/)+'"]');
 
             var per, night=[];
 
             per = personsArr[index].value;
             orgPersons.push(per);
+
+            // Grab nights each person is staying
             for(var j = 0; j < totalNights; j++){
-                if(checkBoxes[j].checked){
-                    night.push(j);
+                if(checkBoxes[j] == null){ // Check if checkbox exists
+                    continue;
+                }
+                else{
+                    if(checkBoxes[j].checked){
+                        night.push(j);
+                    }
                 }
             }
 
@@ -121,6 +156,7 @@ window.onload = function() {
 
         let totalCostDifference = Math.abs(orgCosts.reduce((partialSum,a) => partialSum+a, 0) - totalCost);
 
+        // Error check
         if(totalCostDifference > 1e-3 )
         {
             calcResultTableJS.innerHTML = '';
@@ -137,6 +173,7 @@ window.onload = function() {
             }
         }
 
+
         document.getElementById("make_changes").disabled = false;
 
     }
@@ -146,9 +183,11 @@ window.onload = function() {
         var persons, nights, index;
 
         persons = document.querySelectorAll('[id^="person"]');
+        var personsArr = Array.from(persons);
 
-        for(index = 1; index <= persons.length; index++){
-            document.getElementById("person" + index).disabled = true;
+        for(index = 0; index < personsArr.length; index++){
+            document.getElementById("person" + personsArr[index].name.match(/\d+$/)).disabled = true;
+            document.getElementById('rm-button-'+personsArr[index].name.match(/\d+$/)).disabled = true;
         }
 
         checkboxes = document.querySelectorAll('[id^="cb"]');
@@ -159,18 +198,18 @@ window.onload = function() {
         document.getElementById("totalCost").disabled = true;
         document.getElementById("totalNights").disabled = true;
 
-        recalculating = true;
+        making_changes = true;
         recal = 1;
 
-        recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label><b>Modifications:</b></label></td><td><label><b>Nights</b></label></td></tr>');
-
+        recalTableJS.insertAdjacentHTML("beforeend", '<th>Modifications:</th><th>Nights</th>');        
+        
         var iter = 1;
 
         for (index = 0; index < orgPersons.length; index++) {
 
             recalTableJS.insertAdjacentHTML("beforeend", '<tr><td><label name="reperson' + recal + '" id="reperson' + recal + '">' + orgPersons[index] + ' </label> \
             ');
-            
+
             for(var i=0; i < totalNights; i++){
                 if(orgNights[index].includes(i)){
                     recalTableJS.rows[iter].insertAdjacentHTML("beforeend", '<input type="checkbox" name="recb'+iter+'" id="recb'+iter+'" checked>'); 
@@ -238,7 +277,7 @@ window.onload = function() {
 
         ////
         for (index = 0; index < AddRepersons.length; index++) {
-            var AddReCheckBoxes = document.querySelectorAll('[name="addcb'+(index+1)+'"]');
+            var AddReCheckBoxes = document.querySelectorAll('[name="addcb'+AddRepersonsArr[index].name.match(/\d+$/)+'"]');
             var night =[];
 
             for(var j = 0; j < totalNights; j++){
@@ -269,7 +308,6 @@ window.onload = function() {
             }
             else
             {
-                console.log('Should be error siteLogic')
                 redisTableJS.insertAdjacentHTML("beforeend", '<tr><td><label class="error">Error: Check that all names are different.</label><label></label><br/></td></tr>');
                 return 0;
             }
@@ -325,11 +363,16 @@ window.onload = function() {
             checkBoxes[index].remove();
         }
 
+        persons = document.querySelectorAll('[id^="person"]');
+        var personsArr = Array.from(persons);
+
         totalNights = document.getElementById("totalNights").value;
 
         for (var iter=1; iter < calcTableJS.rows.length; iter++){
+            person_idx = personsArr[iter-1].getId;
+
             for(var i=0; i < totalNights; i++){
-                calcTableJS.rows[iter].insertAdjacentHTML("beforeend", '<input type="checkbox" name="cb'+iter+'" id="cb'+iter+'"/>'); 
+                calcTableJS.rows[iter].insertAdjacentHTML("beforeend", '<input type="checkbox" name="cb'+personsArr[iter-1].name.match(/\d+$/)+'" id="cb'+personsArr[iter-1].name.match(/\d+$/)+'"/>'); 
             }
         }
     }, false);
