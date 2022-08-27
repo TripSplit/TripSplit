@@ -13,62 +13,88 @@
 </head>
 
 <body>
-   <div id="page-wrap" style="text-align: center;">
-      <h1 style="text-align:center"><image class="logo" src="tripsplitalphasmaller.png"></image></h1>
-      <label>Total Cost: </label>
-      <input type="number" name="totalCost" id="totalCost" class="required">
-      <label>Total Number of Nights: </label>
-      <input type="number" name="totalNights" id="totalNights"class="required" value="5">
-      <form name='mainForm' id='mainForm' method="get" action="#">
-         <fieldset>
-            <legend>Input Information</legend>
-               <table id="calcTable">
-                  <th>Original Travelers:</th>
-                  <th>Nights</th>
-                  <!-- Elements will be dynamically added here -->
-               </table>
-               <table id="calcResultTable">
-                  <!-- Elements will be dynamically added here -->
-               </table>
-               <br/>
-               <table id="recalTable">
-                  <!-- Elements will be dynamically added here -->
-               </table>
-               <br/>
-               <table id="redisTable">
-                  <!-- Elements will be dynamically added here -->
-               </table>
-         </fieldset>
-      </form>
-      <button class="button-main" id="add_person">Add Person</button>
-      <button class="button-main" id="calculate">Calculate</button>
-      <button class="button-main" id="make_changes" disabled>Make Changes</button>
-      <button class="button-main" id="redistribute" disabled>Redistribute</button>
-      <br/><br/><br/><br/>
-      <button class="button-main" onClick="window.location.reload();">Start Over</button>
-      <br/><br/><br/><br/>
-      <pre style="display: inline-block; text-align: left;"><b>
-         Instructions:
-
-         -Enter the total cost of the trip in the "Total Cost" box
-         -Enter The number of nights you will be staying in the "Total Number of Nights" box
-         -Click "Add Person" button until you have the amount of people that are attending the trip
-         -Add the names of the travelers to the "Name" boxes
-         -For each person click on the checkboxes for the nights they are staying
-         -Click Calculate
-         
-         -If your friends changed their plans after everything was paid for, you may now follow the same steps above to make changes. This includes adding more people and changing nights
-         
-         -Click start over button if you need to begin a new calculation.
-      </b></pre>
-   </div>
-   <div class="footerbackground">
-      <div class="footer">
-         <h4>Terms of Use</h4>
-         <p>Welcome to the TripSplit Site ("Site"). Please review the following basic rules ("Terms of Service") that govern your use of products through our Site as they constitute a legally binding agreement between you and TripSplit. Please note that your Use of our Site constitutes your acceptance of these <a href="tos.html" target="_blank">Terms of Use</a> and your agreement to be bound by them.</p>
+   <div id="page-container">
+      <div id="page-wrap" style="text-align: center;">
+         <h1 style="text-align:center"><image class="logo" src="tripsplitalphasmaller.png"></image></h1>
+         <label>Total Cost: </label>
+         <input type="number" name="totalCost" id="totalCost" class="required">
+         <label>Total Number of Nights: </label>
+         <input type="number" name="totalNights" id="totalNights"class="required" value="5">
+         <br></br>
+         <form name='mainForm' id='mainForm' method="get" action="#">
+            <fieldset>
+               <legend>Input Information</legend>
+                  <table id="calcTable">
+                     <th>Original Travelers:</th>
+                     <th>Nights</th>
+                     <!-- Elements will be dynamically added here -->
+                  </table>
+                  <table id="calcResultTable">
+                     <!-- Elements will be dynamically added here -->
+                  </table>
+                  <br/>
+                  <table id="recalTable">
+                     <!-- Elements will be dynamically added here -->
+                  </table>
+                  <br/>
+                  <table id="redisTable">
+                     <!-- Elements will be dynamically added here -->
+                  </table>
+            </fieldset>
+         </form>
+         <button class="button-main" id="add_person">Add Person</button>
+         <button class="button-main" id="calculate">Calculate</button>
+         <button class="button-main" id="make_changes" disabled>Make Changes</button>
+         <button class="button-main" id="redistribute" disabled>Redistribute</button>
+         <br/><br/><br/><br/>
+         <button class="button-main" onClick="window.location.reload();">Start Over</button>
+         <br></br>
+         <button class="button-main" id="help">Help</button>
+         <br/><br/><br/><br/>
+         <pre class="instructions" id="instructions">
+            <!-- <b>Instructions:</b>
+            <ul>
+               <li>Enter the total cost of the trip in the "Total Cost" box</li>
+               <li>Enter The number of nights you will be staying in the "Total Number of Nights" box</li>
+               <li>Click "Add Person" button until you have the amount of people that are attending the trip</li>
+               <li>Add the names of the travelers to the "Name" boxes</li>
+               <li>For each person click on the checkboxes for the nights they are staying</li>
+               <li>Click Calculate</li>
+               <li>If your friends changed their plans after everything was paid for, you may now follow the same steps above to make changes. This includes adding more people and changing nights         </li>
+               <li>Click start over button if you need to begin a new calculation.</li>
+            </ul>
+            <br></br>
+            <b>Test 2:</b> -->
+         </pre>
       </div>
-      
+
+      <footer>
+         <section class="container">
+            <div class="about">
+               <h3>About Us</h3>
+               <p>TripSplit provides easy cost distribution and redistribution capabilities for trip planning with dynamic circumstances.</p>
+            </div>
+            <div class="tos-footer">
+               <h3><a href="tos.html" target="_blank">Terms of Use</a></h3>
+               <p>Welcome to the TripSplit Site ("Site"). Please review the following basic rules ("Terms of Service") that govern your use of products through our Site as they constitute a legally binding agreement between you and TripSplit. Please note that your Use of our Site constitutes your acceptance of these <a href="tos.html" target="_blank">Terms of Use</a> and your agreement to be bound by them.</p>
+            </div>
+            <div class="contact-share">
+               <h3>Contact and Support</h3>
+               <p class="text-justify"><a href = "mailto:support@tripsplit.io?subject = Feedback&body = Message">Send Feedback</a></p>
+               <br></br>
+               <h3>Share</h3>
+               <p class="text-justify"></p><button id="footer-share-button">Share Link</button><p id="share-alert"></p>
+               <br></br>
+               <p class="version-number">Version 1.0 - Released 31 August 2022</p>
+               <p class="top-of-page"><a href="#">Top of Page</a>.</p>
+            </div>
+         </section>
+         <section class="copyright">
+            <p class="copyright-text">Copyright &copy; 2022 All Rights Reserved by <a href="#">TripSplit</a>.</p>
+         </section>
+      </footer>
    </div>
 </body>
+
 </html>
 
