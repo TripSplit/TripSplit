@@ -377,6 +377,7 @@ window.onload = function() {
         }
     }, false);
 
+
     document.getElementById("footer-share-button").onclick = function() {
 
 
@@ -384,6 +385,47 @@ window.onload = function() {
         navigator.clipboard.writeText("https://tripsplit.io/");
       
         /* Alert the copied text */
-        alert("Copied site link https://tripsplit.io/ to clipboard!");
+        // alert("Copied site link https://tripsplit.io/ to clipboard!");
+        document.getElementById('share-alert').innerHTML = 'Copied site link https://tripsplit.io/ to clipboard!';
+        
+        setTimeout(function(){
+            document.getElementById('share-alert').innerHTML = '';
+        },5000);
+        
+
       }
+
+
+    helpClicked = false;
+    document.getElementById("help").onclick = function() {
+        helpArea = document.getElementById("instructions");
+        if(helpClicked)
+        {
+            helpArea.innerHTML = '';
+            helpClicked = false;
+        }
+        else
+        {
+            helpArea.innerHTML = '<b>Instructions:</b>\
+            <ul>\
+               <li>Total Cost: The total cost of the trip</li>\
+               <li>Total Number of Nights: Enter the number of nights you will be staying</li>\
+               <li>Add Person: Click until you have the amount of people attending the trip</li>\
+               <li>Name: Add the names of each traveler</li>\
+               <li>Nights: Click on the checkboxes for the nights each person is staying</li>\
+               <li>Click “Calculate”</li>\
+            </ul>\
+            <br></br>\
+            <b>Change of Plans?</b>\
+            <ul>\
+                <li>Click “Make Changes”</li>\
+                <li>Follow the same steps as above (ie. adding people & changing nights)</li>\
+                <li>Click “Redistribute”</li>\
+            </ul>\
+            <br></br>\
+            <b>Need to make a new calculation?</b>\
+            <p>Click "Start Over"</p><br></br>';
+            helpClicked = true;
+        }
+    }
 }
