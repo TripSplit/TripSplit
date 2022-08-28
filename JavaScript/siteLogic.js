@@ -75,8 +75,7 @@ window.onload = function() {
         else{
             newPerson = calcTableJS.insertRow();
             newPerson.innerHTML = '<tr><td> \
-                <button class="button-rm" id="rm-button-' + (personNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button> \
-                <input type="text" name="person' + (personNumber+1).toString() + '" id="person' + (personNumber+1).toString() + '" class="required" placeholder="Name">';
+                <button class="button-rm" id="rm-button-' + (personNumber+1).toString() + '" type="button"> <i class="fa fa-trash"></i></button><input type="text" name="person' + (personNumber+1).toString() + '" id="person' + (personNumber+1).toString() + '" class="required" placeholder="Name">';
 
             // Function for remove button
             $("#rm-button-" + (personNumber+1).toString() ).on("click", function() {
