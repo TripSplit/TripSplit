@@ -207,6 +207,16 @@ footer {
   flex-basis: 70%;
 }
 
+.tos-wrap {
+  text-align: left;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.tos-h2 {
+  font-size: 18pt;
+}
+
 .tos-footer {
   flex-grow: 1;
   flex-basis: 100%;
