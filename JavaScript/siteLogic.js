@@ -195,8 +195,8 @@ window.onload = function() {
             checkboxes[i].disabled = true;
         }
         
-        document.getElementById("totalCost").disabled = true;
-        document.getElementById("totalNights").disabled = true;
+        //document.getElementById("totalCost").disabled = true;
+        //document.getElementById("totalNights").disabled = true;
 
         making_changes = true;
         recal = 1;
@@ -251,6 +251,9 @@ window.onload = function() {
         }
 
         stay.CalculateOriginalCosts();
+
+        stay.ChangeTotalPrice(document.getElementById("totalCost").value);
+        stay.ChangeTotalNights(document.getElementById("totalNights").value);
 
         repersons = document.querySelectorAll('[id^="reperson"]');
         var repersonsArr = Array.from(repersons);
@@ -356,23 +359,66 @@ window.onload = function() {
     }
 
     document.getElementById("totalNights").addEventListener("change", function() {
-        var checkBoxes = document.querySelectorAll('[type="checkbox"]');
-        var index = 0;
+        if (making_changes){
+            var recb = document.querySelectorAll('[id^="recb"]');
+            var addcb = document.querySelectorAll('[id^="addcb"]');
 
-        for (index = 0; index < checkBoxes.length; index++){
-            checkBoxes[index].remove();
+            var index = 0;
+
+            for (index = 0; index < recb.length; index++){
+                recb[index].remove();
+            }
+            for (index = 0; index < addcb.length; index++){
+                addcb[index].remove();
+            }
+
+            AddReperson = document.querySelectorAll('[id^="AddReperson"]');
+            repersons = document.querySelectorAll('[id^="reperson"]');
+            var repersonsArr = Array.from(repersons);
+            var AddRepersonsArr = Array.from(AddReperson);
+
+            totalNights = document.getElementById("totalNights").value;
+
+            for (var iter=0; iter < recalTableJS.rows.length-1; iter++){
+                console.log(iter);
+                //reperson_idx = repersonsArr[iter-1].getId;
+                //ddreperson_idx = AddRepersonsArr[iter-1].getId;
+                //console.log(repersons[iter].getAttribute("name"));
+                if(iter < repersonsArr.length){
+                    
+                    for(var i=0; i < totalNights; i++){
+                        recalTableJS.rows[iter+1].insertAdjacentHTML("beforeend", '<input type="checkbox" name="recb'+repersonsArr[iter].getAttribute("name").match(/\d+$/)+'" id="recb'+repersonsArr[iter].getAttribute("name").match(/\d+$/)+'"/>');
+                    }
+                }
+                else{
+                    
+                    for(var i=0; i < totalNights; i++){
+                        console.log(iter-(repersonsArr.length));
+                        recalTableJS.rows[iter+1].insertAdjacentHTML("beforeend", '<input type="checkbox" name="addcb'+AddRepersonsArr[iter-(repersonsArr.length)].getAttribute("name").match(/\d+$/)+'" id="addcb'+AddRepersonsArr[iter-(repersonsArr.length)].getAttribute("name").match(/\d+$/)+'"/>'); 
+                    }
+                }
+                
+            }
         }
+        else{
+            var checkBoxes = document.querySelectorAll('[type="checkbox"]');
+            var index = 0;
 
-        persons = document.querySelectorAll('[id^="person"]');
-        var personsArr = Array.from(persons);
+            for (index = 0; index < checkBoxes.length; index++){
+                checkBoxes[index].remove();
+            }
 
-        totalNights = document.getElementById("totalNights").value;
+            persons = document.querySelectorAll('[id^="person"]');
+            var personsArr = Array.from(persons);
 
-        for (var iter=1; iter < calcTableJS.rows.length; iter++){
-            person_idx = personsArr[iter-1].getId;
+            totalNights = document.getElementById("totalNights").value;
 
-            for(var i=0; i < totalNights; i++){
-                calcTableJS.rows[iter].insertAdjacentHTML("beforeend", '<input type="checkbox" name="cb'+personsArr[iter-1].name.match(/\d+$/)+'" id="cb'+personsArr[iter-1].name.match(/\d+$/)+'"/>'); 
+            for (var iter=1; iter < calcTableJS.rows.length; iter++){
+                person_idx = personsArr[iter-1].getId;
+
+                for(var i=0; i < totalNights; i++){
+                    calcTableJS.rows[iter].insertAdjacentHTML("beforeend", '<input type="checkbox" name="cb'+personsArr[iter-1].name.match(/\d+$/)+'" id="cb'+personsArr[iter-1].name.match(/\d+$/)+'"/>'); 
+                }
             }
         }
     }, false);
